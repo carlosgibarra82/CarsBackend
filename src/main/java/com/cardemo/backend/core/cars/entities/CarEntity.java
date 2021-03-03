@@ -1,11 +1,12 @@
 package com.cardemo.backend.core.cars.entities;
 
+import com.cardemo.backend.core.users.entities.UserEntity;
+import com.cardemo.backend.generics.datatypes.CarType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -19,18 +20,17 @@ public class CarEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
 
-    @Column(name ="first_name")
-    private String name;
+    @Column(name ="license_plate", nullable = false, length = 50)
+    private String licensePlate;
 
-    @Column(name ="last_name")
-    private String lastName;
+    @Column(name = "color", nullable = false, length = 50)
+    private String color;
 
-    @Column(name ="birth_date")
-    private Date birthDate;
+    @Column(name = "type", nullable = false, length = 1)
+    private CarType carType;
 
-    @Column(name ="email")
-    private String email;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity userEntity;
 
-    @Column(name ="password")
-    private String password;
 }
