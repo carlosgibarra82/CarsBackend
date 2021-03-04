@@ -2,12 +2,16 @@ package com.cardemo.backend.core.users.services;
 
 import com.cardemo.backend.core.users.entities.UserEntity;
 import com.cardemo.backend.core.users.services.repositories.IUserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ExpressionException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -41,6 +45,15 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
+    public String delete(Long id){
+        try {
+            userRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT).toString();
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR).toString();
+        }
+    }
+
     private void updateValidations(UserEntity userEntity, UserEntity newUserEntity) {
         if (!(userEntity.getId() == newUserEntity.getId())) {
             this.idNumberValidation(newUserEntity.getId());
@@ -71,7 +84,4 @@ public class UserService {
         return userRepository.findAll();
     }
 
-//    public List<UserEntity> search(String search) {
-//        return userRepository.search(search.toUpperCase());
-//    }
 }
