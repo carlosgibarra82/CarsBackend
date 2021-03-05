@@ -1,6 +1,7 @@
 package com.cardemo.backend.core.users.services;
 
 import com.cardemo.backend.core.users.entities.UserEntity;
+
 import com.cardemo.backend.core.users.services.repositories.IUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
