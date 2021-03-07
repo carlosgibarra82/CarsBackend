@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -83,4 +84,6 @@ public class CarService {
     public List<CarEntity> findAll() {
         return carRepository.findAll();
     }
+
+    public Optional<CarEntity> findById(Long id) { return carRepository.findById(id);  }
 }

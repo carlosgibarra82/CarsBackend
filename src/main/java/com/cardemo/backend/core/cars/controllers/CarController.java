@@ -4,11 +4,15 @@ import com.cardemo.backend.core.cars.controllers.dto.CarDto;
 import com.cardemo.backend.core.cars.entities.CarEntity;
 import com.cardemo.backend.core.cars.mappers.ICarMapper;
 import com.cardemo.backend.core.cars.services.CarService;
+import com.cardemo.backend.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/cars")
@@ -44,7 +48,13 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id){
-        return this.carService.delete(id);
+    public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id){
+        CarEntity car = carService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Car with id :" + id + "Doesn't exists"));
+
+        carService.delete(car.getId());
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }
